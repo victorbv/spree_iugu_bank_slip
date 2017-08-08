@@ -30,6 +30,7 @@ module Spree
         user = Spree::User.find gateway_options[:customer_id]
         doc_user = user.attributes[Spree::BankSlipConfig[:doc_customer_attr]] rescue ''
         billing_address = gateway_options[:billing_address]
+        billing_address_object = source.order.billing_address
 
         # Pegando o DDD e o telefone
         if billing_address[:phone].include?('(')
@@ -60,6 +61,7 @@ module Spree
                 email: gateway_options[:email],
                 address: {
                     street: billing_address[:address1],
+                    number: billing_address_object.number,
                     city: billing_address[:city],
                     state: billing_address[:state],
                     country: 'Brasil',
